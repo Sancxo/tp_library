@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `tp_php`.`livres` (
   `id_livres` INT NOT NULL AUTO_INCREMENT,
   `titre` VARCHAR(45) NOT NULL,
   `livres_description` MEDIUMTEXT NULL,
-  `image` BLOB NOT NULL,
+  `image` BLOB NULL,
   PRIMARY KEY (`id_livres`),
   UNIQUE INDEX `id_livres_UNIQUE` (`id_livres` ASC)
 ) ENGINE = InnoDB;
