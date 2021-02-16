@@ -1,8 +1,48 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: rgb(247, 247, 232);
 }
 
-a {
-  color: #00B7FF;
+h1 {
+  text-align: center;
+}
+
+input {
+  appearance: none;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid lightgray;
+}
+
+.container {
+  width: 50%;
+  min-height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding: 2em;
+  background: white;
+  border: 2px solid lightgrey;
+  border-radius: 5px;
+}
+
+.group-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.group-btn {
+  display: flex;
+  justify-content: center;
+  margin: 1em;
 }
