@@ -18,7 +18,6 @@ app.use(express.static(path.join(__dirname, "public")));
 // Routes for html files
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/books", booksRouter);
 
 // Routes for API calls
 app.use("/api", library);

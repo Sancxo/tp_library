@@ -15,3 +15,33 @@ une page pour modif
 une page pour supprimer
 
 ca c'est pour le front et ensuite faut faire le back où on branche knex à la Bdd pour faire les requêtes
+
+## API route
+
+  ### Books
+- [] get all books
+- [] get a book /api/livres/:id
+- [] post a book /api/livres
+- [] update a book /api/livres/:id
+- [] delete a book /api/livres/:id
+
+  ### Genres
+- [] get all genres
+- [] get a genre /api/genres/:id
+- [] post a genre /api/genres
+- [] update a genre /api/genres/:id
+- [] delete a genre /api/genres/:id
+
+  ### Auteurs
+- [] get all auteurs
+- [] get a auteur /api/auteurs/:id
+- [] post a auteur /api/auteurs
+- [] update a auteur /api/auteurs/:id
+- [] delete a auteur /api/auteurs/:id
+
+## Front route
+
+- [] connexion.html (connexion page)
+- [] index.html (table with all the books + links to add, delete, update book)
+- [] add (form avec pour commencer, livres, ensuite on peut créer un form avec un menu select pour choisir auteur, genre etc et en fonction le form s'actualise pour les champs demandés)
+- [] delete
