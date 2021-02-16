@@ -4,12 +4,21 @@ class Genre {
         setDescription(description);
     }
 
+    escapeHtml(unsafe) {
+        return unsafe
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+    }
+
     setLibelle(libelle) {
         if(libelle != null) {
             libelle = libelle.trim();
             if (libelle != "") {
                 if(libelle.length < 45) {
-                    this.libelle = libelle;
+                    this.libelle = this.escapeHtml(libelle);
                 } else {
                     throw new Error("Le champ 'Libelle' ne doit pas dépasser les 45 caractères de long.");
                 }
@@ -23,7 +32,7 @@ class Genre {
     getLibelle() { return this.libelle }
 
     setDescription(description) {
-        this.description = description;
+        this.description = this.escapeHtml(description);
     }
 
     getDescription() { return this.description }

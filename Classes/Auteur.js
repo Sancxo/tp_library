@@ -4,12 +4,21 @@ class Auteur {
         setPrenom(prenom);
     }
 
+    escapeHtml(unsafe) {
+        return unsafe
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+    }
+
     setNom(nom) {
         if(nom != null) {
             nom = nom.trim();
             if (nom != "") {
                 if(nom.length < 45) {
-                    this.nom = nom;
+                    this.nom =  this.escapeHtml(nom);
                 } else {
                     throw new Error("Le champ 'Nom' ne doit pas dépasser les 45 caractères de long.");
                 }
@@ -27,7 +36,7 @@ class Auteur {
             prenom = prenom.trim();
             if (prenom != "") {
                 if(prenom.length < 45) {
-                    this.prenom = prenom;
+                    this.prenom =  this.escapeHtml(prenom);
                 } else {
                     throw new Error("Le champ 'Prénom' ne doit pas dépasser les 45 caractères de long.");
                 }
