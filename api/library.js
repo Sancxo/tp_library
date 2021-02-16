@@ -11,10 +11,52 @@ const Genre = require("../Classes/Genre");
 router.get("/livres", (req, res) => {
   knex
     .select()
-    .table("Livres")
+    .table("livres")
     .then((livres) => {
       res.json(livres);
     });
 });
+router.get("/livres/:id", (req, res) => {
+  knex
+    .select()
+    .table("livres")
+    .where({id_livres: req.params.id})
+    .then((livres) => {
+      res.json(livres);
+    });
+});
+
+router.post("/livres", (req, res) => {
+  knex("livres")
+  .insert({
+    titre: req.body.titre, 
+    livres_description: req.body.livre_desc, 
+    image: req.body.image})
+  .then(() => {
+    res.send('Nouveau livre créé : ' + req.body.titre + '.');
+  });
+})
+
+router.put("/livres/:id", (req, res) => {
+  knex("livres")
+  .update({
+    titre: req.body.titre,
+    livres_description: req.body.livre_desc,
+    image: req.body.image
+  })
+  .where({id_livres: req.params.id})
+  .then((livres) => {
+    res.send('Le livre n°' + req.params.id + ' a bien été modifié !');
+  });
+})
+
+router.delete("/livres/:id", (req, res) => {
+  knex("livres")
+    .delete()
+    .where({id_livres: req.params.id})
+    .then(() => {
+      res.send('livre n°' + req.params.id + ' a bien été supprimé');
+    });
+})
 
 module.exports = router;
