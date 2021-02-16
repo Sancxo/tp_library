@@ -1,22 +1,34 @@
+# TP Node.js bibliothèque
+  Avec
+    - MySql pour la base de données
+    - knex.js queryBuilder pour les requêtes
+    - express.js pour les routes
+    - Vanila JS parce qu'on plus que tout 😍
 
-- installe les dépendences avec npm install
-- pour démarrer le serveur 'npm run start' (c'est une commande définie dans package.json)
-- va sur l'adresse indiqué
 
-Du coup on voit 2 routes qu'on retrouve dans le dossier routes et dans app.js qui sert une ressource en fonction de l'url
+knexfile c'est le fichier de connexion à la database donc à modifier en fonction
+Le dossier db c'est pour les fichiers concernant la BDD
+  (idéalement j'avais prévu d'avoir un fichier queries que le fichier api apelle mais ça ne marchait pas donc pour avancer j'ai laissé tomber et je verrai plus tard)
+Le dossier api c'est pour les routes (et les requêtes pour le moment)
 
-Donc je pense que le mieux à faire c'est d'avoir la page de connexion si user exists il a accès aux autres pages, le trucs c'est qu'avec node je pense pas qu'on est la variable session de php du coup je crois qu'il faut utiliser un système de token.
+## Pour installer
 
-Mais ce que je propose c'est qu'on fasse d'abord le formulaire et le CRUD de livres
-Donc 
-une page avec un tableau pour récuperer la liste de livres 
-une page avec un form pour ajouter
-une page pour modif 
-une page pour supprimer
+- npm install
+- lance une instance mysql
+- lance le script qui ce trouve dans db folder "db_library.sql"
+- 'npm run start' ou npm run dev pour nodemon
 
-ca c'est pour le front et ensuite faut faire le back où on branche knex à la Bdd pour faire les requêtes
+et ça devrait être bon
 
-## API route
+## A faire (Sujet au changement)
+
+### Classes
+
+- [x] Livre
+- [x] Auteur
+- [x] Genre
+
+### API routes
 
   ### Books
 - [] get all books
@@ -39,7 +51,7 @@ ca c'est pour le front et ensuite faut faire le back où on branche knex à la B
 - [] update a auteur /api/auteurs/:id
 - [] delete a auteur /api/auteurs/:id
 
-## Front route
+### Front routes
 
 - [] connexion.html (connexion page)
 - [] index.html (table with all the books + links to add, delete, update book)
