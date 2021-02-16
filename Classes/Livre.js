@@ -1,8 +1,8 @@
-export default class Livre {
+class Livre {
   constructor(title, description, image) {
-    this.title = setTitle(title);
-    this.description = setDes(description);
-    this.image = setImage(image);
+    this.setTitle(title);
+    this.setDes(description);
+    this.setImage(image);
   }
 
   escapeHtml(unsafe) {
@@ -47,8 +47,10 @@ export default class Livre {
   setImage(image) {
     // Ici j'aurai la fonction isValid pour être sur que le poids autorisé
     // n'est pas depassé etc
-    if (image.isValid()) {
+    if (this.isValid(image)) {
       this.image = image;
     }
   }
 }
+
+module.exports = Livre;
