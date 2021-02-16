@@ -19,92 +19,92 @@ CREATE SCHEMA IF NOT EXISTS `tp_php` DEFAULT CHARACTER SET utf8 ;
 USE `tp_php` ;
 
 -- -----------------------------------------------------
--- Table `tp_php`.`Auteur`
+-- Table `tp_php`.`auteur`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `tp_php`.`Auteur` ;
+DROP TABLE IF EXISTS `tp_php`.`auteur` ;
 
-CREATE TABLE IF NOT EXISTS `tp_php`.`Auteur` (
-  `idAuteur` INT NOT NULL AUTO_INCREMENT,
-  `Nom` VARCHAR(45) NOT NULL,
-  `Prénom` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idAuteur`),
-  UNIQUE INDEX `idAuteur_UNIQUE` (`idAuteur` ASC) VISIBLE)
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `tp_php`.`auteur` (
+  `id_auteur` INT NOT NULL AUTO_INCREMENT,
+  `nom` VARCHAR(45) NOT NULL,
+  `prenom` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_auteur`),
+  UNIQUE INDEX `id_auteur_UNIQUE` (`id_auteur` ASC)
+) ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `tp_php`.`Ecrit`
+-- Table `tp_php`.`ecrit`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `tp_php`.`Ecrit` ;
+DROP TABLE IF EXISTS `tp_php`.`ecrit` ;
 
-CREATE TABLE IF NOT EXISTS `tp_php`.`Ecrit` (
-  `Auteur_idAuteur` INT NOT NULL,
-  `Livres_idLivres` INT NOT NULL,
-  PRIMARY KEY (`Auteur_idAuteur`, `Livres_idLivres`),
-  INDEX `fk_Ecrit_Livres1_idx` (`Livres_idLivres` ASC) VISIBLE,
-  CONSTRAINT `fk_Ecrit_Auteur`
-    FOREIGN KEY (`Auteur_idAuteur`)
-    REFERENCES `tp_php`.`Auteur` (`idAuteur`)
+CREATE TABLE IF NOT EXISTS `tp_php`.`ecrit` (
+  `auteur_id_auteur` INT NOT NULL,
+  `livres_id_livres` INT NOT NULL,
+  PRIMARY KEY (`auteur_id_auteur`, `livres_id_livres`),
+  INDEX `fk_ecrit_livres1_idx` (`livres_id_livres` ASC),
+  CONSTRAINT `fk_ecrit_auteur`
+    FOREIGN KEY (`auteur_id_auteur`)
+    REFERENCES `tp_php`.`auteur` (`id_auteur`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Ecrit_Livres1`
-    FOREIGN KEY (`Livres_idLivres`)
-    REFERENCES `tp_php`.`Livres` (`idLivres`)
+  CONSTRAINT `fk_ecrit_livres1`
+    FOREIGN KEY (`livres_id_livres`)
+    REFERENCES `tp_php`.`livres` (`id_livres`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `tp_php`.`Genre`
+-- Table `tp_php`.`genre`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `tp_php`.`Genre` ;
+DROP TABLE IF EXISTS `tp_php`.`genre` ;
 
-CREATE TABLE IF NOT EXISTS `tp_php`.`Genre` (
-  `idGenre` INT NOT NULL AUTO_INCREMENT,
-  `Libellé` VARCHAR(45) NOT NULL,
-  `Description` MEDIUMTEXT NULL,
-  PRIMARY KEY (`idGenre`),
-  UNIQUE INDEX `idGenre_UNIQUE` (`idGenre` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `tp_php`.`Livres`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `tp_php`.`Livres` ;
-
-CREATE TABLE IF NOT EXISTS `tp_php`.`Livres` (
-  `idLivres` INT NOT NULL AUTO_INCREMENT,
-  `Titre` VARCHAR(45) NOT NULL,
-  `Description` MEDIUMTEXT NULL,
-  `Image` BLOB NOT NULL,
-  PRIMARY KEY (`idLivres`),
-  UNIQUE INDEX `idLivres_UNIQUE` (`idLivres` ASC) VISIBLE)
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `tp_php`.`genre` (
+  `id_genre` INT NOT NULL AUTO_INCREMENT,
+  `libelle` VARCHAR(45) NOT NULL,
+  `genre_description` MEDIUMTEXT NULL,
+  PRIMARY KEY (`id_genre`),
+  UNIQUE INDEX `id_genre_UNIQUE` (`id_genre` ASC) 
+) ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `tp_php`.`Possède`
+-- Table `tp_php`.`livres`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `tp_php`.`Possède` ;
+DROP TABLE IF EXISTS `tp_php`.`livres` ;
 
-CREATE TABLE IF NOT EXISTS `tp_php`.`Possède` (
-  `Livres_idLivres` INT NOT NULL,
-  `Genre_idGenre` INT NOT NULL,
-  PRIMARY KEY (`Livres_idLivres`, `Genre_idGenre`),
-  INDEX `fk_Possède_Genre1_idx` (`Genre_idGenre` ASC) VISIBLE,
-  CONSTRAINT `fk_Possède_Livres1`
-    FOREIGN KEY (`Livres_idLivres`)
-    REFERENCES `tp_php`.`Livres` (`idLivres`)
+CREATE TABLE IF NOT EXISTS `tp_php`.`livres` (
+  `id_livres` INT NOT NULL AUTO_INCREMENT,
+  `titre` VARCHAR(45) NOT NULL,
+  `livres_description` MEDIUMTEXT NULL,
+  `image` BLOB NOT NULL,
+  PRIMARY KEY (`id_livres`),
+  UNIQUE INDEX `id_livres_UNIQUE` (`id_livres` ASC)
+) ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `tp_php`.`possede`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `tp_php`.`possede` ;
+
+CREATE TABLE IF NOT EXISTS `tp_php`.`possede` (
+  `livres_id_livres` INT NOT NULL,
+  `genre_id_genre` INT NOT NULL,
+  PRIMARY KEY (`livres_id_livres`, `genre_id_genre`),
+  INDEX `fk_possede_genre1_idx` (`genre_id_genre` ASC),
+  CONSTRAINT `fk_possede_livres1`
+    FOREIGN KEY (`livres_id_livres`)
+    REFERENCES `tp_php`.`livres` (`id_livres`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Possède_Genre1`
-    FOREIGN KEY (`Genre_idGenre`)
-    REFERENCES `tp_php`.`Genre` (`idGenre`)
+  CONSTRAINT `fk_possede_genre1`
+    FOREIGN KEY (`genre_id_genre`)
+    REFERENCES `tp_php`.`genre` (`id_genre`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
 
 SET SQL_MODE = '';
 DROP USER IF EXISTS user1;
