@@ -1,14 +1,17 @@
 # TP Node.js bibliothèque
   Avec
-    - MySql pour la base de données
-    - knex.js queryBuilder pour les requêtes
-    - express.js pour les routes
-    - Vanila JS parce qu'on plus que tout 😍
+- MySql pour la base de données
+- knex.js queryBuilder pour les requêtes
+- express.js pour les routes
+- Vanila JS parce qu'on l'aime plus que tout 😍
 
 
 knexfile c'est le fichier de connexion à la database donc à modifier en fonction
+
 Le dossier db c'est pour les fichiers concernant la BDD
   (idéalement j'avais prévu d'avoir un fichier queries que le fichier api apelle mais ça ne marchait pas donc pour avancer j'ai laissé tomber et je verrai plus tard)
+
+
 Le dossier api c'est pour les routes (et les requêtes pour le moment)
 
 ## Pour installer
@@ -16,7 +19,7 @@ Le dossier api c'est pour les routes (et les requêtes pour le moment)
 - npm install
 - lance une instance mysql
 - lance le script qui ce trouve dans db folder "db_library.sql"
-- 'npm run start' ou npm run dev pour nodemon
+- `npm run start` ou `npm run dev` pour nodemon
 
 et ça devrait être bon
 
@@ -31,29 +34,29 @@ et ça devrait être bon
 ### API routes
 
   ### Books
-- [] get all books
-- [] get a book /api/livres/:id
-- [] post a book /api/livres
-- [] update a book /api/livres/:id
-- [] delete a book /api/livres/:id
+- [ ] get all books
+- [ ] get a book /api/livres/:id
+- [ ] post a book /api/livres
+- [ ] update a book /api/livres/:id
+- [ ] delete a book /api/livres/:id
 
   ### Genres
-- [] get all genres
-- [] get a genre /api/genres/:id
-- [] post a genre /api/genres
-- [] update a genre /api/genres/:id
-- [] delete a genre /api/genres/:id
+- [ ] get all genres
+- [ ] get a genre /api/genres/:id
+- [ ] post a genre /api/genres
+- [ ] update a genre /api/genres/:id
+- [ ] delete a genre /api/genres/:id
 
   ### Auteurs
-- [] get all auteurs
-- [] get a auteur /api/auteurs/:id
-- [] post a auteur /api/auteurs
-- [] update a auteur /api/auteurs/:id
-- [] delete a auteur /api/auteurs/:id
+- [ ] get all auteurs
+- [ ] get a auteur /api/auteurs/:id
+- [ ] post a auteur /api/auteurs
+- [ ] update a auteur /api/auteurs/:id
+- [ ] delete a auteur /api/auteurs/:id
 
 ### Front routes
 
-- [] connexion.html (connexion page)
-- [] index.html (table with all the books + links to add, delete, update book)
-- [] add (form avec pour commencer, livres, ensuite on peut créer un form avec un menu select pour choisir auteur, genre etc et en fonction le form s'actualise pour les champs demandés)
-- [] delete
+- [ ] connexion.html (connexion page)
+- [ ] index.html (table with all the books + links to add, delete, update book)
+- [ ] add (form avec pour commencer, livres, ensuite on peut créer un form avec un menu select pour choisir auteur, genre etc et en fonction le form s'actualise pour les champs demandés)
+- [ ] delete
