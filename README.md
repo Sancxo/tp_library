@@ -3,7 +3,7 @@
 - MySql pour la base de données
 - knex.js queryBuilder pour les requêtes
 - express.js pour les routes
-- Vanila JS parce qu'on plus que tout 😍
+- Vanila JS parce qu'on l'aime plus que tout 😍
 
 
 knexfile c'est le fichier de connexion à la database donc à modifier en fonction
@@ -11,7 +11,7 @@ knexfile c'est le fichier de connexion à la database donc à modifier en foncti
 Le dossier db c'est pour les fichiers concernant la BDD
   (idéalement j'avais prévu d'avoir un fichier queries que le fichier api apelle mais ça ne marchait pas donc pour avancer j'ai laissé tomber et je verrai plus tard)
 
-  
+
 Le dossier api c'est pour les routes (et les requêtes pour le moment)
 
 ## Pour installer
