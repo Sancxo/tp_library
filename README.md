@@ -34,11 +34,11 @@ et ça devrait être bon
 ### API routes
 
   ### Books
-- [ ] get all books
-- [ ] get a book /api/livres/:id
-- [ ] post a book /api/livres
-- [ ] update a book /api/livres/:id
-- [ ] delete a book /api/livres/:id
+- [x] get all books
+- [x] get a book /api/livres/:id
+- [x] post a book /api/livres
+- [x] update a book /api/livres/:id
+- [x] delete a book /api/livres/:id
 
   ### Genres
 - [ ] get all genres
