@@ -24,7 +24,7 @@ USE `tp_php` ;
 DROP TABLE IF EXISTS `tp_php`.`admin` ;
 
 CREATE TABLE IF NOT EXISTS `tp_php`.`admin` (
-  `username` INT NOT NULL,
+  `username` VARCHAR(25) NOT NULL,
   `password` VARCHAR(25) NOT NULL,
   PRIMARY KEY (`username`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC))
