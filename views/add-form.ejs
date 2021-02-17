@@ -52,8 +52,10 @@
     <div class="grid-element">
 
       <h3>Ajouter livre</h3>
-
-      <form action="/api/genres" method="post">
+      <!-- si la variable existe elle s'affiche -->
+      <p><%=(typeof success!='undefined') ? success : '' %></p>
+      <p><%=(typeof error!='undefined') ? error : '' %></p>
+      <form action="/api/livres" method="post">
 
         <div class="group-form">
           <label for="title">Titre</label>

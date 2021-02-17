@@ -6,6 +6,7 @@ const knex = require("../db/knex");
 
 const Livre = require("../Classes/Livre");
 
+
 const image = req.body.image ?? "";
 const title = req.body.title;
 const des = req.body.description;
@@ -13,7 +14,36 @@ const idParam = req.params.id;
 const idGenre = req.body.id_genre;
 const idAuteur = req.body.id_auteur;
 
+
 //CRUD Livres
+router.post("/", (req, res) => {
+  // Ici on vient récupérer les variables plus facile a utiliser et si les req.body changent
+  // pas besoin d'aller les chercher partout
+  const image = req.body.image ?? "";
+  const title = req.body.title;
+  const des = req.body.description;
+
+  knex("livres")
+    .insert({
+      titre: title,
+      livres_description: des,
+      image: image,
+    })
+    .then(() => {
+      // la fonction render vient de node et comme dans app j'ai spécifié un template engine
+      // il va a chaque chercher dans views le nom du fichier indiqué et en second paramêtre
+      // passer des variables
+      res.render("add-form", { success: `Nouveau livre créé : ${title}.` });
+    })
+    .catch((err) => {
+      // en cas d'erreur on render avec une variable erreur easy
+      res.render("add-form", { error: `Le livre ${title} n'a pu être créé.` });
+
+      // Ca c'est plutôt pour le développement, en production tu mets un package qui écrit des logs
+      // pour enregistrer les erreurs
+      console.error(err);
+    });
+});
 router.get("/", (req, res) => {
   knex("livres")
   .join("ecrit", "livres.id_livres", "=", "ecrit.livres_id_livres")
@@ -74,6 +104,7 @@ router.post("/", (req, res) => {
     res.render("add-form", { error: `Le livre ${title} n'a pu être créé.` });
     console.error(err);
   });
+
 });
 router.put("/:id", (req, res) => {
   knex.transaction((trx) => {
@@ -97,6 +128,7 @@ router.put("/:id", (req, res) => {
         .where({livres_id_livres: idParam})
       })
     })
+
     .then(trx.commit)
     .catch(trx.rollback);
   })
@@ -117,6 +149,7 @@ router.delete("/:id", (req, res) => {
     })
     .catch((err) => {
       res.render("add-form", { error: `Le livre n°${idParam} n'a pu être supprimé.` });
+
       console.error(err);
     });
 });
