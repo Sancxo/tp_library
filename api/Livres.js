@@ -48,14 +48,14 @@ router.post("/", (req, res) => {
       image: req.body.image
     })
     .then((response) => {
-      let livreId = response[0];
+      let idLivre = response[0];
       return knex("ecrit")
       .transacting(trx)
-      .insert({livres_id_livres: livreId, auteur_id_auteur: req.body.id_auteur})
+      .insert({livres_id_livres: idLivre, auteur_id_auteur: req.body.id_auteur})
       .then(() => {
         return knex("possede")
         .transacting(trx)
-        .insert({livres_id_livres: livreId, genre_id_genre: req.body.id_genre});  
+        .insert({livres_id_livres: idLivre, genre_id_genre: req.body.id_genre});  
       })
     })
     .then(trx.commit)
@@ -69,7 +69,9 @@ router.post("/", (req, res) => {
   });
 });
 router.put("/:id", (req, res) => {
-  knex("livres")
+  knex.transaction((trx) => {
+    knex("livres")
+    .transacting(trx)
     .update({
       titre: req.body.titre,
       livres_description: req.body.livre_desc,
@@ -77,11 +79,26 @@ router.put("/:id", (req, res) => {
     })
     .where({ id_livres: req.params.id })
     .then(() => {
-      res.send("Le livre n°" + req.params.id + " a bien été modifié !");
+      return knex("ecrit")
+      .transacting(trx)
+      .update({auteur_id_auteur: req.body.id_auteur})
+      .where({livres_id_livres: req.params.id})
+      .then(() => {
+        return knex("possede")
+        .transacting(trx)
+        .update({genre_id_genre: req.body.id_genre})
+        .where({livres_id_livres: req.params.id})
+      })
     })
-    .catch((err) => {
-      alert(err);
-    });
+    .then(trx.commit)
+    .catch(trx.rollback);
+  })
+  .then(() => {
+    res.send("Le livre n°" + req.params.id + " a bien été modifié !");
+  })
+  .catch((err) => {
+    alert(err);
+  });
 });
 router.delete("/:id", (req, res) => {
   knex("livres")
