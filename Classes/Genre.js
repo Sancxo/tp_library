@@ -28,7 +28,7 @@ class Genre {
       );
     }
 
-    this.libelle = this.escapeHtml(libelle.toLowerCase());
+    this.libelle = this.escapeHtml(this.capitalize(libelle.toLowerCase()));
   }
   getLibelle() {
     return this.capitalize(this.libelle);

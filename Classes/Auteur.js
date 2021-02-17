@@ -36,7 +36,7 @@ class Auteur {
       return this;
     }
 
-    this.nom = this.escapeHtml(nom.trim().toLowerCase());
+    this.nom = this.escapeHtml(this.capitalize(nom.trim().toLowerCase()));
     return this;
   }
 
@@ -57,7 +57,7 @@ class Auteur {
       return this;
     }
 
-    this.prenom = this.escapeHtml(prenom.trim().toLowerCase());
+    this.prenom = this.escapeHtml(this.capitalize(prenom.trim().toLowerCase()));
     return this;
   }
   getPrenom() {

@@ -37,7 +37,7 @@ class Livre {
       return this;
     }
 
-    this.title = this.escapeHtml(title.toLowerCase());
+    this.title = this.escapeHtml(this.capitalize(title.toLowerCase()));
   }
 
   getDes() {
