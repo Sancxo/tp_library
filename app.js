@@ -9,6 +9,7 @@ const session = require("express-session");
 const indexRouter = require("./routes/index");
 const loginRouter = require("./routes/login-route");
 const logoutRouter = require("./routes/logout");
+const addForm = require("./routes/add-form");
 
 const library = require("./api/library");
 
@@ -26,7 +27,7 @@ app.use(
     secret: "123456cat",
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 60000 },
+    cookie: { maxAge: 1000 * 60 * 10 },
   })
 );
 
@@ -34,6 +35,7 @@ app.use(
 app.use("/", loginRouter);
 app.use("/", indexRouter);
 app.use("/", logoutRouter);
+app.use("/", addForm);
 
 // Routes for API calls
 app.use("/api", library);
