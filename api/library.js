@@ -11,13 +11,17 @@ const Genre = require("../Classes/Genre");
 //CRUD Livres
 router.get("/livres", (req, res) => {
   knex("livres")
-    .select()
-    .then((livres) => {
-      res.json(livres);
-    })
-    .catch((err) => {
-      alert(err);
-    });
+  .join("ecrit", "livres.id_livres", "=", "ecrit.livres_id_livres")
+  .join("auteur", "id_auteur", "=", "ecrit.auteur_id_auteur")
+  .join("possede", "livres.id_livres", "=", "possede.livres_id_livres")
+  .join("genre", "id_genre", "=", "possede.genre_id_genre")
+  .select("livres.*", "auteur.prenom", "auteur.nom", "genre.libelle", "genre.genre_description")
+  .then((livres) => {
+    res.json(livres);
+  })
+  .catch((err) => {
+    alert(err);
+  });
 });
 router.get("/livres/:id", (req, res) => {
   knex("livres")
@@ -32,17 +36,17 @@ router.get("/livres/:id", (req, res) => {
 });
 router.post("/livres", (req, res) => {
   knex("livres")
-    .insert({
-      titre: req.body.titre,
-      livres_description: req.body.livre_desc,
-      image: req.body.image,
-    })
-    .then(() => {
-      res.send("Nouveau livre créé : " + req.body.titre + ".");
-    })
-    .catch((err) => {
-      alert(err);
-    });
+  .insert({
+    titre: req.body.titre,
+    livres_description: req.body.livre_desc,
+    image: req.body.image,
+  })
+  .then(() => {
+    res.send("Nouveau livre créé : " + req.body.titre + ".");
+  })
+  .catch((err) => {
+    alert(err);
+  });
 });
 router.put("/livres/:id", (req, res) => {
   knex("livres")
