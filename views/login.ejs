@@ -8,8 +8,9 @@
 
 <body>
   <h1>Bienvenue à la bibliothèque</h1>
+  <p><%=(typeof alertMsg!='undefined')? alertMsg:''%></p>
   <div class="container">
-    <form action="" method="post">
+    <form action="/login" method="post">
       <div class="group-form">
         <label for="username">Nom d'utilisateur</label>
         <input type="text" name="username" id="username">
