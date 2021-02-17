@@ -56,7 +56,10 @@ et ça devrait être bon
 
 ### Front routes
 
-- [ ] connexion.html (connexion page)
+- [x] connexion.html (connexion page)
+    - [x] page de connexion avec username, password
+    - [ ] implémenter la session avec passport
+    - [ ] hacher le password
 - [ ] index.html (table with all the books + links to add, delete, update book)
 - [ ] add (form avec pour commencer, livres, ensuite on peut créer un form avec un menu select pour choisir auteur, genre etc et en fonction le form s'actualise pour les champs demandés)
 - [ ] delete

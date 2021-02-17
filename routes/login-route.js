@@ -2,7 +2,10 @@ const express = require("express");
 const router = express.Router();
 const knex = require("../db/knex");
 
-router.get("/login", (req, res) => {
+const app = express();
+const bcrypt = require("bcrypt");
+
+router.get("/", (req, res) => {
   res.render("login");
 });
 
@@ -14,10 +17,16 @@ router.post("/login", (req, res, next) => {
     .from("admin")
     .where({
       username: username,
-      password: password,
     })
     .then((user) => {
       if (user[0].length < 1) throw new Error();
+
+      bcrypt.compare(password, user[0].password, (err, res) => {
+        // Error
+        if (!res) {
+          throw new Error();
+        }
+      });
       req.session.loggedInUser = true;
       req.session.username = username;
       res.redirect("/index");

@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `tp_php`.`admin` ;
 
 CREATE TABLE IF NOT EXISTS `tp_php`.`admin` (
   `username` VARCHAR(25) NOT NULL,
-  `password` VARCHAR(25) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`username`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC))
 ENGINE = InnoDB;

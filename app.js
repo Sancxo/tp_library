@@ -1,12 +1,9 @@
 const express = require("express");
 const path = require("path");
-const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
-const passport = require("passport");
-
-const strategy = require("./passportConfig");
+const session = require("express-session");
 
 // Routes
 const indexRouter = require("./routes/index");
@@ -32,10 +29,6 @@ app.use(
     cookie: { maxAge: 60000 },
   })
 );
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.use(strategy);
 
 // Routes for html files
 app.use("/", loginRouter);
