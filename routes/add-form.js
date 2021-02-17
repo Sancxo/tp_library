@@ -3,9 +3,9 @@ const router = express.Router();
 
 const session = require("express-session");
 
-router.get("/index", function (req, res, next) {
+router.get("/form", function (req, res, next) {
   if (req.session.loggedInUser) {
-    res.render("index", { username: req.session.username });
+    res.render("add-form");
   } else {
     res.redirect("/");
   }

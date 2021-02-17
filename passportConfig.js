@@ -1,25 +1,36 @@
 const LocalStrategy = require("passport-local").Strategy;
 const knex = require("./db/knex");
+const bcrypt = require("bcrypt");
 
 const strategy = new LocalStrategy(function (username, password, done) {
   knex
     .select()
-    .table("admin")
-    .where({ username: username })
+    .from("admin")
+    .where({
+      username: username,
+    })
     .then((user) => {
-      if (!user) {
+      // Error
+      if (user[0].length < 1) {
         return done(null, false, {
           message: "Incorrect username or password.",
         });
       }
-      if (user.password !== password) {
-        return done(null, false, {
-          message: "Incorrect username or password.",
-        });
-      }
-      return done(null, user);
+      bcrypt.compare(password, user[0].password, (err, res) => {
+        console.log(res);
+        // Error
+        if (!res) {
+          return done(null, false, {
+            message: "Incorrect username or password.",
+          });
+        }
+      });
+
+      // Good
+      return done(null, user[0]);
     })
     .catch((err) => {
+      // System or DB error
       return done(err);
     });
 });
