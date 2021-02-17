@@ -1,8 +1,13 @@
 class Livre {
   constructor(title, description, image) {
+    this.erreurs = {};
     this.setTitle(title);
     this.setDes(description);
     this.setImage(image);
+  }
+
+  capitalize(word) {
+    return word.replace(/^\w/, (c) => c.toUpperCase());
   }
 
   escapeHtml(unsafe) {
@@ -19,17 +24,20 @@ class Livre {
   }
 
   getTitle() {
-    return this.title;
+    return this.capitalize(this.title);
   }
 
   setTitle(title) {
-    title = title.trim();
-
-    if (title.length > 2 && title.length < 45) {
-      this.title = this.escapeHtml(title);
-    } else {
-      throw new Error("Le titre devrais faire entre 2 et 45 caractères");
+    if (title === undefined || title.trim().length < 2) {
+      this.erreurs.title = Error("Le titre doit faire plus de 2 caractères");
+      return this;
     }
+    if (title.length > 45) {
+      this.erreurs.title = Error("Le titre doit faire moins de 45 caractères");
+      return this;
+    }
+
+    this.title = this.escapeHtml(title.toLowerCase());
   }
 
   getDes() {
@@ -37,7 +45,7 @@ class Livre {
   }
 
   setDes(description) {
-    this.description = this.escapeHtml(description);
+    this.description = this.escapeHtml(description) | "";
   }
 
   getImage() {

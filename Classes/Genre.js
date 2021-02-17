@@ -1,41 +1,46 @@
 class Genre {
-    constructor(libelle, description) {
-        setLibelle(libelle);
-        setDescription(description);
+  constructor(libelle, description) {
+    this.erreurs = {};
+    this.setLibelle(libelle);
+    this.setDescription(description);
+  }
+
+  capitalize(word) {
+    return word.replace(/^\w/, (c) => c.toUpperCase());
+  }
+
+  escapeHtml(unsafe) {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  setLibelle(libelle) {
+    if (libelle === undefined || libelle.trim().length < 1) {
+      this.erreurs.libelle = Error("Le champ 'Libelle' ne peut pas être vide.");
+    }
+    if (libelle.length > 45) {
+      this.erreurs.libelle = Error(
+        "Le champ 'Libelle' ne doit pas dépasser les 45 caractères de long."
+      );
     }
 
-    escapeHtml(unsafe) {
-        return unsafe
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#039;");
-    }
+    this.libelle = this.escapeHtml(libelle.toLowerCase());
+  }
+  getLibelle() {
+    return this.capitalize(this.libelle);
+  }
 
-    setLibelle(libelle) {
-        if(libelle != null) {
-            libelle = libelle.trim();
-            if (libelle != "") {
-                if(libelle.length < 45) {
-                    this.libelle = this.escapeHtml(libelle);
-                } else {
-                    throw new Error("Le champ 'Libelle' ne doit pas dépasser les 45 caractères de long.");
-                }
-            } else {
-                throw new Error("Le champ 'Libelle' ne peut pas être vide.");
-            }
-        } else {
-            throw new Error("Le champs 'Libelle' ne peut pas être null.");
-        }
-    }
-    getLibelle() { return this.libelle }
+  setDescription(description) {
+    this.description = this.escapeHtml(description) | "";
+  }
 
-    setDescription(description) {
-        this.description = this.escapeHtml(description);
-    }
-
-    getDescription() { return this.description }
+  getDescription() {
+    return this.description;
+  }
 }
 
 module.exports = Genre;

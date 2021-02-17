@@ -7,13 +7,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bibliothèque</title>
   <link rel="stylesheet" href="/stylesheets/form.css">
+  <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
 <body>
+  <header>
+    <h1>Ajouter ou modifier</h1>
+    <a href="/logout">Se déconnecter</a>
+    <a href="/index">Retour</a>
+  </header>
   <div class="grid">
     <div class="grid-element">
 
       <h3>Ajouter genre</h3>
+      <p class="success"><%=(typeof successGenre != 'undefined' ) ? successGenre : '' %></p>
+      <p class="error"><%=(typeof errorGenre != 'undefined' ) ? errorGenre : '' %></p>
 
       <form action="/api/genres" method="post">
 
@@ -33,6 +41,8 @@
     <div class="grid-element">
 
       <h3>Ajouter auteur</h3>
+      <p class="success"><%=(typeof successAuteur != 'undefined' ) ? successAuteur : '' %></p>
+      <p class="error"><%=(typeof errorAuteur != 'undefined' ) ? errorAuteur : '' %></p>
 
       <form action="/api/auteurs" method="post">
 
@@ -53,8 +63,8 @@
 
       <h3>Ajouter livre</h3>
       <!-- si la variable existe elle s'affiche -->
-      <p><%=(typeof success!='undefined') ? success : '' %></p>
-      <p><%=(typeof error!='undefined') ? error : '' %></p>
+      <p class="success"><%=(typeof successLivre != 'undefined' ) ? successLivre : '' %></p>
+      <p class="error"><%=(typeof errorLivre != 'undefined' ) ? errorLivre : '' %></p>
       <form action="/api/livres" method="post">
 
         <div class="group-form">
@@ -68,7 +78,7 @@
         </div>
         <div class="group-form">
           <label for="image">Image - disabled</label>
-          <input type="text" name="description" disabled>
+          <input type="text" name="image" disabled>
         </div>
         <button type="submit">Envoyer</button>
       </form>

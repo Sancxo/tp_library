@@ -10,13 +10,14 @@ const Auteur = require("../Classes/Auteur");
 router.get("/", (req, res) => {
   knex("auteur")
     .select()
-    .then((auteurs) => {
-      res.json(auteurs);
+    .then((auteur) => {
+      res.json(auteur);
     })
     .catch((err) => {
       console.error(err);
     });
 });
+
 router.get("/:id", (req, res) => {
   knex("auteur")
     .select()
@@ -28,19 +29,41 @@ router.get("/:id", (req, res) => {
       console.error(err);
     });
 });
+
 router.post("/", (req, res) => {
+  let auteur;
+  try {
+    auteur = new Auteur(req.body.name, req.body.firstname);
+
+    if (auteur.erreur.nom !== undefined) {
+      throw auteur.erreur.nom.message;
+    }
+    if (auteur.erreur.prenom !== undefined) {
+      throw auteur.erreur.prenom.message;
+    }
+  } catch (error) {
+    res.render("add-form", { errorAuteur: error });
+    console.error(error);
+  }
+
   knex("auteur")
     .insert({
-      prenom: req.body.prenom,
-      nom: req.body.nom,
+      prenom: auteur.prenom,
+      nom: auteur.nom,
     })
     .then(() => {
-      res.send("Nouvel auteur créé : " + req.body.prenom + " " + req.body.nom);
+      res.render("add-form", {
+        successAuteur: `Auteur ajouté : ${auteur.getPrenom()} ${auteur.getNom()}.`,
+      });
     })
     .catch((err) => {
+      res.render("add-form", {
+        successGenre: `Auteur: ${auteur.getPrenom()} ${auteur.getNom()} n'a pu être ajouté.`,
+      });
       console.error(err);
     });
 });
+
 router.put("/:id", (req, res) => {
   knex("auteur")
     .update({
