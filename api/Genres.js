@@ -5,6 +5,7 @@ const router = express.Router();
 const knex = require("../db/knex");
 
 const Genre = require("../Classes/Genre");
+const Auteur = require("../Classes/Auteur");
 
 //CRUD Genres
 router.get("/", (req, res) => {
@@ -29,15 +30,34 @@ router.get("/:id", (req, res) => {
     });
 });
 router.post("/", (req, res) => {
+  let genre;
+
+  try {
+    genre = new Genre(req.body.libelle, req.body.description);
+
+    if (genre.erreur.libelle !== undefined) {
+      throw genre.erreur.libelle.message;
+    }
+    if (genre.erreur.description !== undefined) {
+      throw genre.erreur.description.message;
+    }
+  } catch (error) {
+    res.render("add-form", { errorGenre: error });
+    console.error(error);
+  }
+
   knex("genre")
     .insert({
-      libelle: req.body.libelle,
-      genre_description: req.body.genre_desc,
+      libelle: genre.libelle,
+      genre_description: genre.description,
     })
     .then(() => {
-      res.send("Nouveau genre créé : " + req.body.libelle);
+      res.render("add-form", {
+        successGenre: `Genre ajouté : ${genre.getLibelle()}.`,
+      });
     })
     .catch((err) => {
+      res.render("add-form", { errorGenre: `Erreur : ${genre.getLibelle()}.` });
       console.error(err);
     });
 });

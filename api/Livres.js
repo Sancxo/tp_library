@@ -17,30 +17,37 @@ const idAuteur = req.body.id_auteur;
 
 //CRUD Livres
 router.post("/", (req, res) => {
-  // Ici on vient récupérer les variables plus facile a utiliser et si les req.body changent
-  // pas besoin d'aller les chercher partout
-  const image = req.body.image ?? "";
-  const title = req.body.title;
-  const des = req.body.description;
+  let livre;
+
+  try {
+    livre = new Livre(req.body.title, req.body.description, req.body.image);
+
+    for (const error in livre.erreurs) {
+      if (error !== undefined) {
+        throw livre.erreurs[error].message;
+      }
+    }
+  } catch (error) {
+    res.render("add-form", { errorLivre: error });
+    console.error(error);
+  }
 
   knex("livres")
     .insert({
-      titre: title,
-      livres_description: des,
-      image: image,
+      titre: livre.title,
+      livres_description: livre.description,
+      image: livre.image,
     })
     .then(() => {
-      // la fonction render vient de node et comme dans app j'ai spécifié un template engine
-      // il va a chaque chercher dans views le nom du fichier indiqué et en second paramêtre
-      // passer des variables
-      res.render("add-form", { success: `Nouveau livre créé : ${title}.` });
+      res.render("add-form", {
+        successLivre: `Nouveau livre créé : ${livre.getTitle()}.`,
+      });
     })
     .catch((err) => {
-      // en cas d'erreur on render avec une variable erreur easy
-      res.render("add-form", { error: `Le livre ${title} n'a pu être créé.` });
+      res.render("add-form", {
+        errorLivre: `Le livre ${livre.getTitle()} n'a pu être créé.`,
+      });
 
-      // Ca c'est plutôt pour le développement, en production tu mets un package qui écrit des logs
-      // pour enregistrer les erreurs
       console.error(err);
     });
 });
