@@ -5,7 +5,13 @@ const router = express.Router();
 const knex = require("../db/knex");
 
 const Livre = require("../Classes/Livre");
-const { response } = require("express");
+
+const image = req.body.image ?? "";
+const title = req.body.title;
+const des = req.body.description;
+const idParam = req.params.id;
+const idGenre = req.body.id_genre;
+const idAuteur = req.body.id_auteur;
 
 //CRUD Livres
 router.get("/", (req, res) => {
@@ -26,7 +32,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   knex("livres")
   .select("livres.*", "auteur.prenom", "auteur.nom", "genre.libelle", "genre.genre_description")
-  .where({ id_livres: req.params.id })
+  .where({ id_livres: idParam })
   .join("ecrit", "livres.id_livres", "=", "ecrit.livres_id_livres")
   .join("auteur", "id_auteur", "=", "ecrit.auteur_id_auteur")
   .join("possede", "livres.id_livres", "=", "possede.livres_id_livres")
@@ -43,28 +49,29 @@ router.post("/", (req, res) => {
     knex("livres")
     .transacting(trx)
     .insert({
-      titre: req.body.titre,
-      livres_description: req.body.livre_desc,
-      image: req.body.image
+      titre: title,
+      livres_description: des,
+      image: image
     })
     .then((response) => {
       let idLivre = response[0];
       return knex("ecrit")
       .transacting(trx)
-      .insert({livres_id_livres: idLivre, auteur_id_auteur: req.body.id_auteur})
+      .insert({livres_id_livres: idLivre, auteur_id_auteur: idAuteur})
       .then(() => {
         return knex("possede")
         .transacting(trx)
-        .insert({livres_id_livres: idLivre, genre_id_genre: req.body.id_genre});  
+        .insert({livres_id_livres: idLivre, genre_id_genre: idGenre});  
       })
     })
     .then(trx.commit)
     .catch(trx.rollback);
   })
   .then(() => {
-    res.send("Nouveau livre créé : " + req.body.titre + ".");
+    res.render("add-form", { success: `Nouveau livre créé : ${title}.` });
   })
   .catch((err) => {
+    res.render("add-form", { error: `Le livre ${title} n'a pu être créé.` });
     console.error(err);
   });
 });
@@ -73,42 +80,44 @@ router.put("/:id", (req, res) => {
     knex("livres")
     .transacting(trx)
     .update({
-      titre: req.body.titre,
-      livres_description: req.body.livre_desc,
-      image: req.body.image,
+      titre: title,
+      livres_description: des,
+      image: image,
     })
-    .where({ id_livres: req.params.id })
+    .where({ id_livres: idParam })
     .then(() => {
       return knex("ecrit")
       .transacting(trx)
-      .update({auteur_id_auteur: req.body.id_auteur})
-      .where({livres_id_livres: req.params.id})
+      .update({auteur_id_auteur: idAuteur})
+      .where({livres_id_livres: idParam})
       .then(() => {
         return knex("possede")
         .transacting(trx)
-        .update({genre_id_genre: req.body.id_genre})
-        .where({livres_id_livres: req.params.id})
+        .update({genre_id_genre: idGenre})
+        .where({livres_id_livres: idParam})
       })
     })
     .then(trx.commit)
     .catch(trx.rollback);
   })
   .then(() => {
-    res.send("Le livre n°" + req.params.id + " a bien été modifié !");
+    res.render("add-form", { success: `Le livre n°${idParam} a bien été modifié !` });
   })
   .catch((err) => {
-    alert(err);
+    res.render("add-form", { error: `Le livre n°${idParam} n'a pu être modifié.` });
+    console.error(err);
   });
 });
 router.delete("/:id", (req, res) => {
   knex("livres")
     .delete()
-    .where({ id_livres: req.params.id })
+    .where({ id_livres: idParam })
     .then(() => {
-      res.send("Le livre n°" + req.params.id + " a bien été supprimé");
+      res.render("add-form", { success: `Le livre n°${idParam} a bien été supprimé !` });
     })
     .catch((err) => {
-      alert(err);
+      res.render("add-form", { error: `Le livre n°${idParam} n'a pu être supprimé.` });
+      console.error(err);
     });
 });
 
