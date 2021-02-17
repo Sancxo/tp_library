@@ -9,21 +9,19 @@ const Auteur = require('../Classes/Auteur');
 const Genre = require("../Classes/Genre");
 
 router.get("/livres", (req, res) => {
-  knex
-    .select()
-    .table("livres")
-    .then((livres) => {
-      res.json(livres);
-    });
+  knex("livres")
+  .select()
+  .then((livres) => {
+    res.json(livres);
+  });
 });
 router.get("/livres/:id", (req, res) => {
-  knex
-    .select()
-    .table("livres")
-    .where({id_livres: req.params.id})
-    .then((livres) => {
-      res.json(livres);
-    });
+  knex("livres")
+  .select()
+  .where({id_livres: req.params.id})
+  .then((livres) => {
+    res.json(livres);
+  });
 });
 
 router.post("/livres", (req, res) => {
