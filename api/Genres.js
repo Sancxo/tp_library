@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
       res.json(genres);
     })
     .catch((err) => {
-      alert(err);
+      console.error(err);
     });
 });
 router.get("/:id", (req, res) => {
@@ -25,7 +25,7 @@ router.get("/:id", (req, res) => {
       res.json(genre);
     })
     .catch((err) => {
-      alert(err);
+      console.error(err);
     });
 });
 router.post("/", (req, res) => {
@@ -38,7 +38,7 @@ router.post("/", (req, res) => {
       res.send("Nouveau genre créé : " + req.body.libelle);
     })
     .catch((err) => {
-      alert(err);
+      console.error(err);
     });
 });
 router.put("/:id", (req, res) => {
@@ -52,7 +52,7 @@ router.put("/:id", (req, res) => {
       res.send("Le genre n°" + req.params.id + " a bien été modifié !");
     })
     .catch((err) => {
-      alert(err);
+      console.error(err);
     });
 });
 router.delete("/:id", (req, res) => {
@@ -63,7 +63,7 @@ router.delete("/:id", (req, res) => {
       res.send("Le genre n°" + req.params.id + " a bien été supprimé");
     })
     .catch((err) => {
-      alert(err);
+      console.error(err);
     });
 });
 
