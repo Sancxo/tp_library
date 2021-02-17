@@ -34,25 +34,25 @@ et ça devrait être bon
 ### API routes
 
   ### Books
-- [ ] get all books
-- [ ] get a book /api/livres/:id
-- [ ] post a book /api/livres
-- [ ] update a book /api/livres/:id
-- [ ] delete a book /api/livres/:id
+- [x] get all books
+- [x] get a book /api/livres/:id
+- [x] post a book /api/livres
+- [x] update a book /api/livres/:id
+- [x] delete a book /api/livres/:id
 
   ### Genres
-- [ ] get all genres
-- [ ] get a genre /api/genres/:id
-- [ ] post a genre /api/genres
-- [ ] update a genre /api/genres/:id
-- [ ] delete a genre /api/genres/:id
+- [x] get all genres
+- [x] get a genre /api/genres/:id
+- [x] post a genre /api/genres
+- [x] update a genre /api/genres/:id
+- [x] delete a genre /api/genres/:id
 
   ### Auteurs
-- [ ] get all auteurs
-- [ ] get a auteur /api/auteurs/:id
-- [ ] post a auteur /api/auteurs
-- [ ] update a auteur /api/auteurs/:id
-- [ ] delete a auteur /api/auteurs/:id
+- [x] get all auteurs
+- [x] get a auteur /api/auteurs/:id
+- [x] post a auteur /api/auteurs
+- [x] update a auteur /api/auteurs/:id
+- [x] delete a auteur /api/auteurs/:id
 
 ### Front routes
 
