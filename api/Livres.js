@@ -166,12 +166,12 @@ router.delete("/:id", (req, res) => {
     .where({ id_livres: req.params.id })
     .then(() => {
       res.render("add-form", {
-        success: `Le livre n°${req.params.id} a bien été supprimé !`,
+        successDeleteLivre: `Le livre n°${req.params.id} a bien été supprimé !`,
       });
     })
     .catch((err) => {
       res.render("add-form", {
-        error: `Le livre n°${req.params.id} n'a pu être supprimé.`,
+        errorDeleteLivre: `Le livre n°${req.params.id} n'a pu être supprimé.`,
       });
 
       console.error(err);

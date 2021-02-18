@@ -98,6 +98,23 @@
       </form>
     </div>
 
+    <div class="grid-element">
+
+      <h3>Supprimer un livre</h3>
+      <p class="success"><%=(typeof successDeleteLivre != 'undefined' ) ? successDeleteLivre : '' %></p>
+      <p class="error"><%=(typeof errorDeleteLivre != 'undefined' ) ? errorDeleteLivre : '' %></p>
+
+      <form action="/api/livres/:id" method="GET">
+        <div class="group-form livres">
+          <label for="id">Livres</label>
+          <select name="id" class="livres"></select>
+        </div>
+
+        <input type="button" value="Supprimer">
+      </form>
+
+    </div>
+
   </div>
 </body>
 <script>
@@ -122,7 +139,13 @@
     select.name = `${property}${numLastSelect}`;
 
 
-    property === "author" ? helper = "auteurs" : helper = "genres";
+    if(property === "author") {
+      helper = "auteurs";
+    } else if (property === "genre") {
+      helper = "genres";
+    } else {
+      helper = "livres";
+    }
 
     getList(helper)
       .then(items => {
@@ -133,8 +156,10 @@
 
           if (property === "author") {
             fullName = `${item.id_auteur}. ${item.prenom} ${item.nom}`
-          } else {
+          } else if (property === "genre") {
             fullName = `${item.id_genre}. ${item.libelle}`;
+          } else {
+            fullName = `${item.ID}. ${item.Titre}`;
           }
 
           textNode = document.createTextNode(fullName);
@@ -149,6 +174,7 @@
 
   let selectAuthor = document.querySelector("select.author");
   let selectGenre = document.querySelector("select.genre");
+  let selectLivres = document.querySelector("select.livres"); 
 
   document.getElementById("addAuthor").addEventListener("click", () => {
     addSelect("author");
@@ -156,6 +182,7 @@
   document.getElementById("addGenre").addEventListener("click", () => {
     addSelect("genre");
   });
+
 
   getList("auteurs")
     .then(authors => {
@@ -180,6 +207,18 @@
         selectGenre.append(option);
       })
     })
+
+  getList("livres")
+  .then(livres => {
+    livres.forEach(livre => {
+      let fullName = `${livre.ID}. ${livre.Titre}`;
+      let option = document.createElement("option");
+      let textNode = document.createTextNode(fullName);
+
+      option.append(textNode);
+      selectLivres.append(option);
+    })
+  })
 </script>
 
 </html>
