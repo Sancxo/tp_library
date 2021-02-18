@@ -7,7 +7,21 @@ const knex = require("../db/knex");
 const Auteur = require("../Classes/Auteur");
 
 //CRUD Auteurs
+// Récup que les auteurs liés à un livre
 router.get("/", (req, res) => {
+  knex("auteur")
+    .select("auteur.prenom", "auteur.nom", "livres.id_livres")
+    .join("ecrit", "auteur.id_auteur", "=", "ecrit.auteur_id_auteur")
+    .join("livres", "ecrit.livres_id_livres", "=", "livres.id_livres")
+    .then((auteur) => {
+      res.json(auteur);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
+router.get("/all", (req, res) => {
   knex("auteur")
     .select()
     .then((auteur) => {
@@ -32,7 +46,7 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   let auteur;
-  
+
   try {
     auteur = new Auteur(req.body.name, req.body.firstname);
 
@@ -41,7 +55,6 @@ router.post("/", (req, res) => {
       if (error !== undefined) {
         throw auteur.erreurs[error].message;
       }
-
     }
   } catch (error) {
     res.render("add-form", { errorAuteur: error });

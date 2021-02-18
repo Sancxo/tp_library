@@ -83,17 +83,8 @@ router.post("/", (req, res) => {
 
 router.get("/", (req, res) => {
   knex
-    .select("livres.id_livres AS ID")
-    .select("livres.titre AS Titre")
-    .select("livres.livres_description AS Description")
-    .select("livres.image")
-    .select("auteur.prenom AS Prénom", "auteur.nom as Nom")
-    .select("genre.libelle AS Genre")
+    .select()
     .from("livres")
-    .join("ecrit", "livres.id_livres", "=", "ecrit.livres_id_livres")
-    .join("auteur", "ecrit.auteur_id_auteur", "=", "auteur.id_auteur")
-    .join("possede", "livres.id_livres", "=", "possede.livres_id_livres")
-    .join("genre", "possede.genre_id_genre", "=", "genre.id_genre")
     .then((livres) => {
       res.json(livres);
     })
@@ -161,6 +152,7 @@ router.delete("/:id", (req, res) => {
   const idParam = req.params.id;
   knex.transaction((trx) => {
     knex("livres")
+<<<<<<< HEAD
     .transacting(trx)
     .delete()
     .where({ id_livres: req.params.id })
@@ -176,7 +168,37 @@ router.delete("/:id", (req, res) => {
 
       console.error(err);
     });
+=======
+      .transacting(trx)
+      .delete()
+      .where({ id_livres: req.params.id })
+      .then(() => {
+        res.render("add-form", {
+          success: `Le livre n°${req.params.id} a bien été supprimé !`,
+        });
+      })
+      .catch((err) => {
+        res.render("add-form", {
+          error: `Le livre n°${req.params.id} n'a pu être supprimé.`,
+        });
+
+        console.error(err);
+      });
+>>>>>>> 0d959b39d4796a9a51494667e281f94d1daca45d
   });
 });
 
 module.exports = router;
+
+// knex
+//     .select("livres.id_livres AS ID")
+//     .select("livres.titre AS Titre")
+//     .select("livres.livres_description AS Description")
+//     .select("livres.image")
+//     .select("auteur.prenom AS Prénom", "auteur.nom as Nom")
+//     .select("genre.libelle AS Genre")
+//     .from("livres")
+//     .join("ecrit", "livres.id_livres", "=", "ecrit.livres_id_livres")
+//     .join("auteur", "ecrit.auteur_id_auteur", "=", "auteur.id_auteur")
+//     .join("possede", "livres.id_livres", "=", "possede.livres_id_livres")
+//     .join("genre", "possede.genre_id_genre", "=", "id_genre")
