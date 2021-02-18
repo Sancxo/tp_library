@@ -9,6 +9,16 @@ const Auteur = require("../Classes/Auteur");
 
 //CRUD Genres
 // Récup que les genres liés à un livre
+router.get("/all", (req, res) => {
+  knex("genre")
+    .select()
+    .then((genres) => {
+      res.json(genres);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
 router.get("/", (req, res) => {
   knex("genre")
     .select("genre.libelle", "livres.id_livres")
@@ -42,7 +52,6 @@ router.post("/", (req, res) => {
       if (error !== undefined) {
         throw genre.erreurs[error].message;
       }
-
     }
   } catch (error) {
     res.render("add-form", { errorGenre: error });

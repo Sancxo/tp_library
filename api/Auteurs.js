@@ -21,6 +21,17 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/all", (req, res) => {
+  knex("auteur")
+    .select()
+    .then((auteur) => {
+      res.json(auteur);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
 router.get("/:id", (req, res) => {
   knex("auteur")
     .select()
@@ -35,7 +46,7 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   let auteur;
-  
+
   try {
     auteur = new Auteur(req.body.name, req.body.firstname);
 
@@ -44,7 +55,6 @@ router.post("/", (req, res) => {
       if (error !== undefined) {
         throw auteur.erreurs[error].message;
       }
-
     }
   } catch (error) {
     res.render("add-form", { errorAuteur: error });
