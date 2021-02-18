@@ -7,9 +7,12 @@ const knex = require("../db/knex");
 const Auteur = require("../Classes/Auteur");
 
 //CRUD Auteurs
+// Récup que les auteurs liés à un livre
 router.get("/", (req, res) => {
   knex("auteur")
-    .select()
+    .select("auteur.prenom", "auteur.nom", "livres.id_livres")
+    .join("ecrit", "auteur.id_auteur", "=", "ecrit.auteur_id_auteur")
+    .join("livres", "ecrit.livres_id_livres", "=", "livres.id_livres")
     .then((auteur) => {
       res.json(auteur);
     })

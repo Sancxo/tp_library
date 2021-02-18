@@ -8,9 +8,12 @@ const Genre = require("../Classes/Genre");
 const Auteur = require("../Classes/Auteur");
 
 //CRUD Genres
+// Récup que les genres liés à un livre
 router.get("/", (req, res) => {
   knex("genre")
-    .select()
+    .select("genre.libelle", "livres.id_livres")
+    .join("possede", "genre.id_genre", "=", "possede.genre_id_genre")
+    .join("livres", "possede.livres_id_livres", "=", "livres.id_livres")
     .then((genres) => {
       res.json(genres);
     })

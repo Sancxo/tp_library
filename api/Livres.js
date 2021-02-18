@@ -83,17 +83,8 @@ router.post("/", (req, res) => {
 
 router.get("/", (req, res) => {
   knex
-    .select("livres.id_livres AS ID")
-    .select("livres.titre AS Titre")
-    .select("livres.livres_description AS Description")
-    .select("livres.image")
-    .select("auteur.prenom AS Prénom", "auteur.nom as Nom")
-    .select("genre.libelle AS Genre")
+    .select()
     .from("livres")
-    .join("ecrit", "livres.id_livres", "=", "ecrit.livres_id_livres")
-    .join("auteur", "ecrit.auteur_id_auteur", "=", "auteur.id_auteur")
-    .join("possede", "livres.id_livres", "=", "possede.livres_id_livres")
-    .join("genre", "possede.genre_id_genre", "=", "id_genre")
     .then((livres) => {
       res.json(livres);
     })
@@ -176,3 +167,16 @@ router.delete("/:id", (req, res) => {
 });
 
 module.exports = router;
+
+// knex
+//     .select("livres.id_livres AS ID")
+//     .select("livres.titre AS Titre")
+//     .select("livres.livres_description AS Description")
+//     .select("livres.image")
+//     .select("auteur.prenom AS Prénom", "auteur.nom as Nom")
+//     .select("genre.libelle AS Genre")
+//     .from("livres")
+//     .join("ecrit", "livres.id_livres", "=", "ecrit.livres_id_livres")
+//     .join("auteur", "ecrit.auteur_id_auteur", "=", "auteur.id_auteur")
+//     .join("possede", "livres.id_livres", "=", "possede.livres_id_livres")
+//     .join("genre", "possede.genre_id_genre", "=", "id_genre")

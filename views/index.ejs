@@ -18,43 +18,82 @@
   </header>
   <div class="list-livres">
     <table>
-
+      <tr>
+        <th>ID</th>
+        <th>Nom livre</th>
+        <th>Description</th>
+        <th>Image</th>
+        <th>Auteurs</th>
+        <th>Genres</th>
+      </tr>
     </table>
   </div>
 </body>
 <script>
-  async function getBooks() {
-    const response = await fetch("http://localhost:3000/api/livres");
-    const livres = await response.json();
-    return livres;
+  async function getResource(property) {
+    const response = await fetch(`http://localhost:3000/api/${property}`);
+    const result = await response.json();
+    return result;
   }
+
   let table = document.querySelector("table");
 
-  getBooks().then(livres => {
-    let tr = document.createElement("tr");
+  const books = getResource("livres");
+  const authors = getResource("auteurs");
+  const genres = getResource("genres");
 
-    for (const key in livres[0]) {
-      let th = document.createElement("th");
-      let textNode = document.createTextNode(key);
+  Promise.all([books, authors, genres])
+    .then(values => {
 
-      th.append(textNode);
-      tr.append(th);
-    }
-    table.append(tr);
+      let array = values[0].map(obj => {
+        let robj = {
+          id: obj.id_livres,
+          title: obj.titre,
+          description: obj.livres_description,
+          image: obj.image,
+          authors: [],
+          genres: []
+        }
 
-    livres.forEach(livre => {
-      let tr = document.createElement("tr");
+        values[1].forEach(author => {
+          if (author.id_livres === robj.id) {
+            let fullName = `${author.prenom} ${author.nom}`;
+            robj.authors = [...robj.authors, fullName];
+          }
+        })
 
-      for (const key in livre) {
-        let td = document.createElement("td");
-        let textNode = document.createTextNode(livre[key]);
+        values[2].forEach(genre => {
+          if (genre.id_livres = robj.id) {
+            if (!robj.genres.includes(genre.libelle)) {
+              robj.genres = [...robj.genres, genre.libelle];
+            }
+          }
+        })
 
-        td.append(textNode);
-        tr.append(td);
-      }
-      table.append(tr);
+        return robj;
+      })
+      console.log(array);
+
+      array.forEach(livre => {
+        let tr = document.createElement("tr");
+
+        for (const key in livre) {
+          let td = document.createElement("td");
+          let helper, textNode;
+
+          if (key === "authors" || key === "genres") {
+            helper = livre[key].join(", ")
+          } else {
+            helper = livre[key];
+          }
+
+          textNode = document.createTextNode(helper);
+          td.append(textNode);
+          tr.append(td);
+        }
+        table.append(tr);
+      })
     })
-  });
 </script>
 
 </html>
