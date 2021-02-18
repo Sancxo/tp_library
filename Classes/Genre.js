@@ -31,6 +31,7 @@ class Genre {
     }
 
     this.libelle = this.escapeHtml(this.capitalize(libelle.toLowerCase()));
+    return this;
   }
   getLibelle() {
     return this.capitalize(this.libelle);

@@ -99,7 +99,7 @@ router.get("/:id", (req, res) => {
     .join("ecrit", "livres.id_livres", "=", "ecrit.livres_id_livres")
     .join("auteur", "auteur.id_auteur", "=", "ecrit.auteur_id_auteur")
     .join("possede", "livres.id_livres", "=", "possede.livres_id_livres")
-    .join("genre", "id_genre", "=", "possede.genre_id_genre")
+    .join("genre", "genre.id_genre", "=", "possede.genre_id_genre")
     .then((livre) => {
       console.log(livre);
       res.json(livre);
@@ -149,21 +149,25 @@ router.put("/:id", (req, res) => {
     });
 });
 router.delete("/:id", (req, res) => {
-  knex("livres")
-    .delete()
-    .where({ id_livres: req.params.id })
-    .then(() => {
-      res.render("add-form", {
-        success: `Le livre n°${req.params.id} a bien été supprimé !`,
-      });
-    })
-    .catch((err) => {
-      res.render("add-form", {
-        error: `Le livre n°${req.params.id} n'a pu être supprimé.`,
-      });
+  const idParam = req.params.id;
+  knex.transaction((trx) => {
+    knex("livres")
+      .transacting(trx)
+      .delete()
+      .where({ id_livres: req.params.id })
+      .then(() => {
+        res.render("add-form", {
+          success: `Le livre n°${req.params.id} a bien été supprimé !`,
+        });
+      })
+      .catch((err) => {
+        res.render("add-form", {
+          error: `Le livre n°${req.params.id} n'a pu être supprimé.`,
+        });
 
-      console.error(err);
-    });
+        console.error(err);
+      });
+  });
 });
 
 module.exports = router;
