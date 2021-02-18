@@ -32,14 +32,16 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   let auteur;
+  
   try {
     auteur = new Auteur(req.body.name, req.body.firstname);
 
-    if (auteur.erreurs.nom !== undefined) {
-      throw auteur.erreurs.nom.message;
-    }
-    if (auteur.erreurs.prenom !== undefined) {
-      throw auteur.erreurs.prenom.message;
+    console.log(auteur.erreurs);
+    for (const error in auteur.erreurs) {
+      if (error !== undefined) {
+        throw auteur.erreurs[error].message;
+      }
+
     }
   } catch (error) {
     res.render("add-form", { errorAuteur: error });

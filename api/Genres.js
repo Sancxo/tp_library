@@ -35,11 +35,11 @@ router.post("/", (req, res) => {
   try {
     genre = new Genre(req.body.libelle, req.body.description);
 
-    if (genre.erreurs.libelle !== undefined) {
-      throw genre.erreurs.libelle.message;
-    }
-    if (genre.erreurs.description !== undefined) {
-      throw genre.erreurs.description.message;
+    for (const error in genre.erreurs) {
+      if (error !== undefined) {
+        throw genre.erreurs[error].message;
+      }
+
     }
   } catch (error) {
     res.render("add-form", { errorGenre: error });

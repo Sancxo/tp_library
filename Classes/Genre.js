@@ -38,7 +38,8 @@ class Genre {
   }
 
   setDescription(description) {
-    this.description = this.escapeHtml(description) | "";
+    this.description =
+      description.length > 0 ? this.escapeHtml(description) : "";
   }
 
   getDescription() {

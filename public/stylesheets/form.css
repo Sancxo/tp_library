@@ -17,3 +17,21 @@
   justify-content: center;
   margin: 1em;
 }
+
+.group-form--spe {
+  display: flex;
+  margin-bottom: 1em;
+}
+
+.btn-add {
+  margin: 0 0 0 1em;
+  padding: 3px 5px;
+  background-color: white;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.btn-add:hover {
+  box-shadow: 1px 1px 3px 0px rgba(45, 50, 50, 0.32);
+}
