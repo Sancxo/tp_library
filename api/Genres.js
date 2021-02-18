@@ -39,6 +39,7 @@ router.post("/", (req, res) => {
       if (error !== undefined) {
         throw genre.erreurs[error].message;
       }
+
     }
   } catch (error) {
     res.render("add-form", { errorGenre: error });
