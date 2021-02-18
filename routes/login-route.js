@@ -24,7 +24,7 @@ router.post("/login", (req, res, next) => {
       bcrypt.compare(password, user[0].password, (err, res) => {
         // Error
         if (!res) {
-          throw new Error();
+          throw new Error("Le password est incorrect");
         }
       });
       req.session.loggedInUser = true;

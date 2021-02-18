@@ -21,11 +21,13 @@ class Genre {
   setLibelle(libelle) {
     if (libelle === undefined || libelle.trim().length < 1) {
       this.erreurs.libelle = Error("Le champ 'Libelle' ne peut pas être vide.");
+      return this;
     }
     if (libelle.length > 45) {
       this.erreurs.libelle = Error(
         "Le champ 'Libelle' ne doit pas dépasser les 45 caractères de long."
       );
+      return this;
     }
 
     this.libelle = this.escapeHtml(this.capitalize(libelle.toLowerCase()));
@@ -35,7 +37,8 @@ class Genre {
   }
 
   setDescription(description) {
-    this.description = this.escapeHtml(description) | "";
+    this.description =
+      description.length > 0 ? this.escapeHtml(description) : "";
   }
 
   getDescription() {

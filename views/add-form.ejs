@@ -76,13 +76,19 @@
           <label for="description">Description</label>
           <input type="text" name="description" id="">
         </div>
-        <div class="group-form">
-          <label for="author">Auteur(s)</label>
-          <input type="text" name="author" id="">
+        <div class="group-form author">
+          <div class="group-form--spe">
+            <label for="author">Auteur(s)</label>
+            <p id="addAuthor" class="btn-add">ajouter</p>
+          </div>
+          <select name="author1" class="author"></select>
         </div>
-        <div class="group-form">
-          <label for="genre">Genre(s)</label>
-          <input type="text" name="genre" id="">
+        <div class="group-form genre">
+          <div class="group-form--spe">
+            <label for="genre">Genre(s)</label>
+            <p id="addGenre" class="btn-add">ajouter</p>
+          </div>
+          <select name="genre1" class="genre"></select>
         </div>
         <div class="group-form">
           <label for="image">Image - disabled</label>
@@ -94,5 +100,86 @@
 
   </div>
 </body>
+<script>
+  async function getList(property) {
+    const response = await fetch(`http://localhost:3000/api/${property}`);
+    const result = await response.json();
+    return result;
+  }
+
+  function addSelect(property) {
+    let helper = '',
+      numLastSelect = 0;
+    let groupForm = document.querySelector(`.group-form.${property}`);
+    let select = document.createElement("select");
+
+    numLastSelect = groupForm.lastElementChild.name.match(/\d$/)[0]; // !! Gives back an array
+
+    if (numLastSelect == 3) return; // we make sure only 3 authors can be in the list
+
+    numLastSelect++;
+    select.classList.add(property);
+    select.name = `${property}${numLastSelect}`;
+
+
+    property === "author" ? helper = "auteurs" : helper = "genres";
+
+    getList(helper)
+      .then(items => {
+        items.forEach(item => {
+          let fullName = "",
+            textNode = "";
+          let option = document.createElement("option");
+
+          if (property === "author") {
+            fullName = `${item.id_auteur}. ${item.prenom} ${item.nom}`
+          } else {
+            fullName = `${item.id_genre}. ${item.libelle}`;
+          }
+
+          textNode = document.createTextNode(fullName);
+          option.append(textNode);
+          select.append(option);
+
+        })
+      });
+
+    groupForm.appendChild(select);
+  }
+
+  let selectAuthor = document.querySelector("select.author");
+  let selectGenre = document.querySelector("select.genre");
+
+  document.getElementById("addAuthor").addEventListener("click", () => {
+    addSelect("author");
+  });
+  document.getElementById("addGenre").addEventListener("click", () => {
+    addSelect("genre");
+  });
+
+  getList("auteurs")
+    .then(authors => {
+      authors.forEach(author => {
+        let fullName = `${author.id_auteur}. ${author.prenom} ${author.nom}`;
+        let option = document.createElement("option");
+        let textNode = document.createTextNode(fullName);
+
+        option.append(textNode);
+        selectAuthor.append(option);
+      })
+    })
+
+  getList("genres")
+    .then(genres => {
+      genres.forEach(genre => {
+        let fullName = `${genre.id_genre}. ${genre.libelle}`;
+        let option = document.createElement("option");
+        let textNode = document.createTextNode(fullName);
+
+        option.append(textNode);
+        selectGenre.append(option);
+      })
+    })
+</script>
 
 </html>

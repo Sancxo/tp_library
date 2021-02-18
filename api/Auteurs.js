@@ -34,12 +34,11 @@ router.post("/", (req, res) => {
   let auteur;
   try {
     auteur = new Auteur(req.body.name, req.body.firstname);
-
-    if (auteur.erreur.nom !== undefined) {
-      throw auteur.erreur.nom.message;
-    }
-    if (auteur.erreur.prenom !== undefined) {
-      throw auteur.erreur.prenom.message;
+    console.log(auteur.erreurs);
+    for (const error in auteur.erreurs) {
+      if (error !== undefined) {
+        throw auteur.erreurs[error].message;
+      }
     }
   } catch (error) {
     res.render("add-form", { errorAuteur: error });

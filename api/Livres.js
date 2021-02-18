@@ -8,7 +8,22 @@ const Livre = require("../Classes/Livre");
 
 //CRUD Livres
 router.post("/", (req, res) => {
-  let livre;
+  let livre,
+    authors = [],
+    genres = [];
+
+  for (const key in req.body) {
+    if (key.startsWith("author")) {
+      let id = req.body[key].match(/^\d/)[0];
+
+      authors.push({ auteur_id_auteur: id });
+    }
+    if (key.startsWith("genre")) {
+      let id = req.body[key].match(/^\d/)[0];
+
+      genres.push({ genre_id_genre: id });
+    }
+  }
 
   try {
     livre = new Livre(req.body.title, req.body.description, req.body.image);
@@ -23,11 +38,34 @@ router.post("/", (req, res) => {
     console.error(error);
   }
 
-  knex("livres")
-    .insert({
-      titre: livre.title,
-      livres_description: livre.description,
-      image: livre.image,
+  knex
+    .transaction((trx) => {
+      knex("livres")
+        .transacting(trx)
+        .insert({
+          titre: livre.title,
+          livres_description: livre.description,
+          image: livre.image,
+        })
+        .then((response) => {
+          let idLivre = response[0];
+
+          authors.forEach((author) => {
+            author.livres_id_livres = idLivre;
+          });
+          return knex("ecrit")
+            .transacting(trx)
+            .insert(authors)
+            .then(() => {
+              genres.forEach((genre) => {
+                genre.livres_id_livres = idLivre;
+              });
+
+              return knex("possede").transacting(trx).insert(genres);
+            });
+        })
+        .then(trx.commit)
+        .catch(trx.rollback);
     })
     .then(() => {
       res.render("add-form", {
@@ -42,6 +80,7 @@ router.post("/", (req, res) => {
       console.error(err);
     });
 });
+
 router.get("/", (req, res) => {
   knex
     .select("livres.id_livres AS ID")
@@ -78,38 +117,7 @@ router.get("/:id", (req, res) => {
       console.error(err);
     });
 });
-router.post("/", (req, res) => {
-  knex
-    .transaction((trx) => {
-      knex("livres")
-        .transacting(trx)
-        .insert({
-          titre: title,
-          livres_description: des,
-          image: image,
-        })
-        .then((response) => {
-          let idLivre = response[0];
-          return knex("ecrit")
-            .transacting(trx)
-            .insert({ livres_id_livres: idLivre, auteur_id_auteur: idAuteur })
-            .then(() => {
-              return knex("possede")
-                .transacting(trx)
-                .insert({ livres_id_livres: idLivre, genre_id_genre: idGenre });
-            });
-        })
-        .then(trx.commit)
-        .catch(trx.rollback);
-    })
-    .then(() => {
-      res.render("add-form", { success: `Nouveau livre créé : ${title}.` });
-    })
-    .catch((err) => {
-      res.render("add-form", { error: `Le livre ${title} n'a pu être créé.` });
-      console.error(err);
-    });
-});
+
 router.put("/:id", (req, res) => {
   knex
     .transaction((trx) => {

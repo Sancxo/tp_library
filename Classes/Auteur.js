@@ -44,8 +44,8 @@ class Auteur {
     return this.capitalize(this.nom);
   }
 
-  setPrenom(prenom) {
-    if (prenom === undefined || prenom.trim().length < 1) {
+  setPrenom(prenom = "") {
+    if (typeof prenom === undefined || prenom.trim().length < 1) {
       this.erreur.prenom = Error("Le champ 'Prénom' ne peut pas être vide.");
       return this;
     }
