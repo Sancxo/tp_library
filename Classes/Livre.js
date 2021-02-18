@@ -7,6 +7,7 @@ class Livre {
   }
 
   capitalize(word) {
+    if (word === undefined) return;
     return word.replace(/^\w/, (c) => c.toUpperCase());
   }
 
@@ -37,7 +38,7 @@ class Livre {
       return this;
     }
 
-    this.title = this.escapeHtml(this.capitalize(title.toLowerCase()));
+    this.title = this.capitalize(title.toLowerCase());
   }
 
   getDes() {
@@ -45,8 +46,7 @@ class Livre {
   }
 
   setDes(description) {
-    this.description =
-      description.length > 0 ? this.escapeHtml(description) : "";
+    this.description = description.length > 0 ? description : "";
   }
 
   getImage() {

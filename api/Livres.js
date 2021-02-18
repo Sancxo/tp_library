@@ -36,6 +36,7 @@ router.post("/", (req, res) => {
   } catch (error) {
     res.render("add-form", { errorLivre: error });
     console.error(error);
+    return;
   }
 
   knex
