@@ -104,7 +104,7 @@
       <p class="success"><%=(typeof successDeleteLivre != 'undefined' ) ? successDeleteLivre : '' %></p>
       <p class="error"><%=(typeof errorDeleteLivre != 'undefined' ) ? errorDeleteLivre : '' %></p>
 
-      <form action="/api/livres/:id" method="GET">
+      <form action="deleteLivre()" method="GET">
         <div class="group-form livres">
           <label for="id">Livres</label>
           <select name="id" class="livres"></select>
@@ -159,7 +159,7 @@
           } else if (property === "genre") {
             fullName = `${item.id_genre}. ${item.libelle}`;
           } else {
-            fullName = `${item.ID}. ${item.Titre}`;
+            fullName = `${item.id_livres}. ${item.titre}`;
           }
 
           textNode = document.createTextNode(fullName);
@@ -185,40 +185,47 @@
 
 
   getList("auteurs")
-    .then(authors => {
-      authors.forEach(author => {
-        let fullName = `${author.id_auteur}. ${author.prenom} ${author.nom}`;
-        let option = document.createElement("option");
-        let textNode = document.createTextNode(fullName);
-
-        option.append(textNode);
-        selectAuthor.append(option);
-      })
-    })
-
-  getList("genres")
-    .then(genres => {
-      genres.forEach(genre => {
-        let fullName = `${genre.id_genre}. ${genre.libelle}`;
-        let option = document.createElement("option");
-        let textNode = document.createTextNode(fullName);
-
-        option.append(textNode);
-        selectGenre.append(option);
-      })
-    })
-
-  getList("livres")
-  .then(livres => {
-    livres.forEach(livre => {
-      let fullName = `${livre.ID}. ${livre.Titre}`;
+  .then(authors => {
+    authors.forEach(author => {
+      let fullName = `${author.id_auteur}. ${author.prenom} ${author.nom}`;
       let option = document.createElement("option");
       let textNode = document.createTextNode(fullName);
 
       option.append(textNode);
-      selectLivres.append(option);
+      selectAuthor.append(option);
     })
   })
+
+  getList("genres")
+  .then(genres => {
+    genres.forEach(genre => {
+      let fullName = `${genre.id_genre}. ${genre.libelle}`;
+      let option = document.createElement("option");
+      let textNode = document.createTextNode(fullName);
+
+      option.append(textNode);
+      selectGenre.append(option);
+    })
+  })
+
+  getList("livres")
+.then(livres => {
+  livres.forEach(livre => {
+    let fullName = `${livre.id_livres}. ${livre.titre}`;
+    let option = document.createElement("option");
+    let textNode = document.createTextNode(fullName);
+
+    option.append(textNode);
+    selectLivres.append(option);
+  });
+})
+
+deleteLivre = () => {
+  let id = `${livres.id_livres}`;
+  var request = new XMLHttpRequest();
+  request.open("DELETE", 'localhost:3000/api/livres/' + id);
+  request.send('Book deleted');
+}
 </script>
 
 </html>
