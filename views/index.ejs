@@ -44,7 +44,6 @@
 
   Promise.all([books, authors, genres])
     .then(values => {
-
       let array = values[0].map(obj => {
         let robj = {
           id: obj.id_livres,
@@ -63,7 +62,7 @@
         })
 
         values[2].forEach(genre => {
-          if (genre.id_livres = robj.id) {
+          if (genre.id_livres === robj.id) {
             if (!robj.genres.includes(genre.libelle)) {
               robj.genres = [...robj.genres, genre.libelle];
             }
@@ -72,7 +71,6 @@
 
         return robj;
       })
-      console.log(array);
 
       array.forEach(livre => {
         let tr = document.createElement("tr");

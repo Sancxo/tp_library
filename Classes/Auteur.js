@@ -36,14 +36,13 @@ class Auteur {
       return this;
     }
 
-    this.nom = this.escapeHtml(this.capitalize(nom.trim().toLowerCase()));
+    this.nom = this.capitalize(nom.trim().toLowerCase());
     return this;
   }
 
   getNom() {
     return this.capitalize(this.nom);
   }
-
 
   setPrenom(prenom) {
     if (prenom === undefined || prenom.trim().length < 1) {
@@ -59,7 +58,7 @@ class Auteur {
       return this;
     }
 
-    this.prenom = this.escapeHtml(this.capitalize(prenom.trim().toLowerCase()));
+    this.prenom = this.capitalize(prenom.trim().toLowerCase());
     return this;
   }
   getPrenom() {

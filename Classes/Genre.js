@@ -30,7 +30,7 @@ class Genre {
       return this;
     }
 
-    this.libelle = this.escapeHtml(this.capitalize(libelle.toLowerCase()));
+    this.libelle = this.capitalize(libelle.toLowerCase());
     return this;
   }
   getLibelle() {
@@ -38,8 +38,7 @@ class Genre {
   }
 
   setDescription(description) {
-    this.description =
-      description.length > 0 ? this.escapeHtml(description) : "";
+    this.description = description.length > 0 ? description : "";
   }
 
   getDescription() {
