@@ -10,15 +10,29 @@ body {
   background: rgb(247, 247, 232);
 }
 
+header {
+  padding-bottom: 20px;
+}
+
 h1 {
   text-align: center;
 }
 
-input {
-  appearance: none;
-  outline: none;
-  border: none;
-  border-bottom: 1px solid lightgray;
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
 }
 
 .container {
@@ -45,4 +59,11 @@ input {
   display: flex;
   justify-content: center;
   margin: 1em;
+}
+
+.login-input {
+  appearance: none;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid lightgray;
 }

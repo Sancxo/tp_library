@@ -5,6 +5,7 @@ const router = express.Router();
 const knex = require("../db/knex");
 
 const Genre = require("../Classes/Genre");
+const Auteur = require("../Classes/Auteur");
 
 //CRUD Genres
 router.get("/", (req, res) => {
@@ -14,7 +15,7 @@ router.get("/", (req, res) => {
       res.json(genres);
     })
     .catch((err) => {
-      alert(err);
+      console.error(err);
     });
 });
 router.get("/:id", (req, res) => {
@@ -25,20 +26,39 @@ router.get("/:id", (req, res) => {
       res.json(genre);
     })
     .catch((err) => {
-      alert(err);
+      console.error(err);
     });
 });
 router.post("/", (req, res) => {
+  let genre;
+
+  try {
+    genre = new Genre(req.body.libelle, req.body.description);
+
+    if (genre.erreur.libelle !== undefined) {
+      throw genre.erreur.libelle.message;
+    }
+    if (genre.erreur.description !== undefined) {
+      throw genre.erreur.description.message;
+    }
+  } catch (error) {
+    res.render("add-form", { errorGenre: error });
+    console.error(error);
+  }
+
   knex("genre")
     .insert({
-      libelle: req.body.libelle,
-      genre_description: req.body.genre_desc,
+      libelle: genre.libelle,
+      genre_description: genre.description,
     })
     .then(() => {
-      res.send("Nouveau genre créé : " + req.body.libelle);
+      res.render("add-form", {
+        successGenre: `Genre ajouté : ${genre.getLibelle()}.`,
+      });
     })
     .catch((err) => {
-      alert(err);
+      res.render("add-form", { errorGenre: `Erreur : ${genre.getLibelle()}.` });
+      console.error(err);
     });
 });
 router.put("/:id", (req, res) => {
@@ -52,7 +72,7 @@ router.put("/:id", (req, res) => {
       res.send("Le genre n°" + req.params.id + " a bien été modifié !");
     })
     .catch((err) => {
-      alert(err);
+      console.error(err);
     });
 });
 router.delete("/:id", (req, res) => {
@@ -63,7 +83,7 @@ router.delete("/:id", (req, res) => {
       res.send("Le genre n°" + req.params.id + " a bien été supprimé");
     })
     .catch((err) => {
-      alert(err);
+      console.error(err);
     });
 });
 
